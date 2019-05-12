@@ -9,29 +9,29 @@
             padding: 0;
         }
 
-        .container{
+        .container {
             margin: 0 auto;
             width: 700px;
         }
 
-        .button_img{
+        .button_img {
             outline: 0;
             border: none;
             background: none;
             cursor: pointer;
         }
 
-        .modal_img{
+        .modal_img {
             display: none;
             position: fixed;
             z-index: 1;
             left: 500px;
             top: 320px;
             overflow: auto;
-            background: rgba(0,0,0,0);
+            background: rgba(0, 0, 0, 0);
         }
 
-        .close{
+        .close {
             font-weight: 700;
             font-size: 50px;
             border: none;
@@ -59,7 +59,7 @@
     ];
     echo '<div class="gallery">';
 
-    foreach ($gallery as $image => $bigImg){
+    foreach ($gallery as $image => $bigImg) {
         echo '<a href="' . $bigImg . '" target="_blank">' . '<img src="' . $bigImg . '" alt="image" width="200" height="150">' . '</a>';
     }
 
@@ -71,7 +71,7 @@
     $images = scandir($dir);
 
     echo '<div class="gallery">';
-    for ($i = 2; $i < count($images); $i++){
+    for ($i = 2; $i < count($images); $i++) {
         echo '<a href="' . $dir . $images[$i] . '" target="_blank">' . '<img src="' . $dir . $images[$i] . '" alt="image" width="200" height="150">' . '</a>';
     }
 
@@ -83,28 +83,29 @@
     $images = scandir($dir);
 
     echo '<div class="gallery">';
-    for ($i = 2; $i < count($images); $i++){
-        echo '<button class="button_img" type="button" data-id="' .$i .' ">' . '<img src="' . $dir . $images[$i] . '" alt="image" width="200" height="150">' . '</button>';
+    for ($i = 2; $i < count($images); $i++) {
+        echo '<button class="button_img" type="button" data-id="' . $i . ' ">' . '<img src="' . $dir . $images[$i] . '" alt="image" width="200" height="150">' . '</button>';
     }
 
     echo '</div>';
 
-    for ($j = 2; $j < count($images); $j++){
-        echo '<div id="'. $j .'" class="modal_img">' . '<div class="modal_content">' . '<button class="close" data-id="' .$j .' ">' . 'X' . '</button>' . '<img src="' . $dir . $images[$j] . '" width="640" height="370" alt="image">' . '</div>' . '</div>';
+    for ($j = 2; $j < count($images); $j++) {
+        echo '<div id="' . $j . '" class="modal_img">' . '<div class="modal_content">' . '<button class="close" data-id="' . $j . ' ">' . 'X' . '</button>' . '<img src="' . $dir . $images[$j] . '" width="640" height="370" alt="image">' . '</div>' . '</div>';
     }
 
     echo '<hr>';
 
     //Доп. задание
     $dateTime = date('d.m.Y') . ' ' . date('H.i.s');
+    file_put_contents('data.txt', $dateTime . PHP_EOL, FILE_APPEND); //создание файла для расчета счетчика
+    $counter = count(file('data.txt'));
 
-    $counter = 0;
-    if (count(file('log.txt')) === 10){
-        $counter++;
-        copy('log.txt',"log$counter.txt");
+    if (count(file('log.txt')) === 10) {
+        $counter = intdiv($counter, 10);
+        copy('log.txt', "log$counter.txt");
         file_put_contents('log.txt', '');
     } else {
-        file_put_contents('log.txt',$dateTime . PHP_EOL, FILE_APPEND);
+        file_put_contents('log.txt', $dateTime . PHP_EOL, FILE_APPEND);
     }
     ?>
 </div>
@@ -112,13 +113,13 @@
     let $button = document.getElementsByClassName("button_img");
     let $close = document.getElementsByClassName("close");
 
-    function handleButtonClick (event){
+    function handleButtonClick(event) {
         let idModal = this.getAttribute("data-id");
         let $modal = document.getElementById(+idModal);
         $modal.style.display = "block";
     }
 
-    function handleButtonClose (event){
+    function handleButtonClose(event) {
         let idModal = this.getAttribute("data-id");
         let $modal = document.getElementById(+idModal);
         $modal.style.display = "none";
