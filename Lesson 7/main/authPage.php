@@ -1,7 +1,7 @@
 <?php
 function index()
 {
-    $content = '<h1>Форма аторизации</h1>';
+    $content = '<h1>Форма авторизации</h1>';
 if ($_SESSION['adminKey'] != ADMIN_KEY) {
     $content .=<<<php
   
@@ -35,9 +35,11 @@ function login()
         $_SESSION['msg'] = 'Не верный логин или пароль';
         if (! empty($login) && $password == $row['password']) {
             $_SESSION['adminKey'] = ADMIN_KEY;
+            $_SESSION['login'] = $login;
+            $_SESSION['fio'] = $row['fio'];
             $_SESSION['msg'] = 'Вы авторизованы';
         }
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        header('Location: ?page=account');
     }
     exit;
 }
