@@ -1,10 +1,11 @@
 <?php
-function index (){
+function index()
+{
     $content = '<h1>Корзина</h1>';
     $cart = $_SESSION['cart'][$_SESSION['userId']];
-    if (!empty($cart)){
+    if (!empty($cart)) {
         foreach ($cart as $key => $cartItem) {
-            $totalPrice = $cartItem['price']*$cartItem['quantity'];
+            $totalPrice = $cartItem['price'] * $cartItem['quantity'];
             $cartItems .= <<<php
             <div class="item">
                 <img src="{$cartItem['url']}" alt="{$cartItem['name']}" width="200" height="150">
@@ -35,7 +36,8 @@ php;
     return $content;
 }
 
-function plus(){
+function plus()
+{
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $id = (int)$_GET['id'];
         $_SESSION['cart'][$_SESSION['userId']][$id]['quantity']++;
@@ -44,10 +46,11 @@ function plus(){
     exit;
 }
 
-function minus(){
+function minus()
+{
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $id = (int)$_GET['id'];
-        if ($_SESSION['cart'][$_SESSION['userId']]['quantity'] === 1){
+        if ($_SESSION['cart'][$_SESSION['userId']]['quantity'] === 1) {
             unset($_SESSION['cart'][$_SESSION['userId']][$id]);
         } else {
             $_SESSION['cart'][$_SESSION['userId']][$id]['quantity']--;
@@ -58,7 +61,8 @@ function minus(){
     exit;
 }
 
-function delete(){
+function delete()
+{
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $id = (int)$_GET['id'];
         unset($_SESSION['cart'][$_SESSION['userId']][$id]);

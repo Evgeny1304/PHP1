@@ -12,7 +12,7 @@ function index()
     </form>
 
 php;
-    } else {
+    } elseif ($_SESSION['login'] !== 'admin') {
         $content = <<<php
         <h1>Личный кабинет</h1>
     <div class="account">
@@ -20,6 +20,17 @@ php;
         <p class="account__name">Ваше имя: {$_SESSION['fio']}</p>
         <p class="account__login">Ваш логин: {$_SESSION['login']}</p>
         <a href="?page=orders">Посмотреть заказы</a>
+        <a href="?page=auth&func=logout">Выйти</a>
+    </div>
+php;
+    } else {
+        $content = <<<php
+        <h1>Личный кабинет Администратора</h1>
+    <div class="account">
+        <h3>Добро пожаловать</h3>
+        <p class="account__login">Ваш логин: {$_SESSION['login']}</p>
+        <a href="?page=orders">Посмотреть заказы пользователей</a>
+        <a href="?page=users">Посмотреть зарегистрированных пользователей</a>
         <a href="?page=auth&func=logout">Выйти</a>
     </div>
 php;
@@ -46,6 +57,10 @@ function login()
             $_SESSION['fio'] = $row['fio'];
             $_SESSION['userId'] = $row['id'];
             $_SESSION['msg'] = 'Вы авторизованы';
+        }
+        if (!empty($_SESSION['cart']['Not registered user'])) {
+            $_SESSION['cart'][$row['id']] = $_SESSION['cart']['Not registered user'];
+            unset($_SESSION['cart']['Not registered user']);
         }
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
